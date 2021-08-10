@@ -9,14 +9,9 @@ import { PageResponse } from './app.model';
 })
 export class AppComponent implements OnInit {
   title = 'api-angular-assesment';
-  user = {
-    "id": 7,
-    "email": "michael.lawson@reqres.in",
-    "first_name": "Michael",
-    "last_name": "Lawson",
-    "avatar": "https://reqres.in/img/faces/7-image.jpg"
-  }
+  array = [1, 2]
   users: PageResponse = new PageResponse();
+  noDatatoShow: string = '';
 
   constructor(private apiService: ApiService) { }
 
@@ -28,12 +23,17 @@ export class AppComponent implements OnInit {
     this.apiService.getUsers(pageNumber)
       .subscribe((result: PageResponse) => {
         this.users = result;
-        console.log(this.users)
       },
         err => {
           if (err.error.message) {
             console.log(err.error.message);
           }
         })
+  }
+
+
+  handleFetch(pageNumber: string | number) {
+    this.users = new PageResponse();
+    this.fetchUsers(pageNumber)
   }
 }
